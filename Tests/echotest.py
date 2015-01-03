@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # project         :EchoTags
 # title           :echotest.py
-# description     :Testing various method calls to the Echonest API
+# description     :Testing various calls to the Echonest API
 # author          :ravila
 # date            :January 02, 2015
 # version         :
