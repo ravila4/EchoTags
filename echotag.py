@@ -9,6 +9,11 @@
 # notes           :
 # python_version  :3.4
 # ==============================================================================
+# To Do:
+#  - handle multiple files with wildcards
+#  - support for other file types
+#
+# ===============================================================================
 
 
 import pyen
@@ -36,7 +41,7 @@ def wait_for_analysis(id):
         # Save attributes to tags
         audio.add(TXXX(encoding=0, desc=k, text=str(v)))
         audio.save()
-    print('Complete. All attributes saved to tags.')
+    print('\n Complete. All attributes saved to tags.')
 
 if len(sys.argv) > 2:
     # Initial parameters
