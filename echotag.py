@@ -21,8 +21,8 @@ en.trace = False
 
 
 def wait_for_analysis(id):
-    print('======================')
     print('Fetching track attributes...')
+    time.sleep(1)
     while True:
         response = en.get('track/profile', id=id, bucket=['audio_summary'])
         if response['track']['status'] != 'pending':
@@ -33,26 +33,34 @@ def wait_for_analysis(id):
         print("%s: %s" % (k, str(v)))
 
 if len(sys.argv) > 2:
+    # Initial parameters
     mp3 = sys.argv[1]
     type = sys.argv[2]
 
-    # Open file
+    # Open file and initiate ID3 tagging method
     f = open(mp3, 'rb')
-    # Upload file and obtain ID
-    print('Fetching track ID...')
-    response = en.post('track/upload', track=f, filetype=type)
-    trid = response['track']['id']
-    print('track id is', trid)
-
-    # Saving ID tag to file
     audio = ID3(mp3)
-    audio.add(TXXX(encoding=0, desc='TRACK_ID', text=trid))
-    audio.save()
-    print('======================')
-    print('ID saved to tag: track_id = ', audio.get('TXXX:TRACK_ID'))
+    # Check if track_id exists in tags
+    if audio.get('TXXX:TRACK_ID') == None:
+        # Tag doesn't exist. Upload file and obtain ID
+        print('Fetching track ID...')
+        response = en.post('track/upload', track=f, filetype=type)
+        trid = response['track']['id']
+        print('Track id is', trid)
 
-    #  Analyze track acoustic properties
+        # Saving ID tag to file
+        audio.add(TXXX(encoding=0, desc='TRACK_ID', text=trid))
+        audio.save()
+        print('\n')
+        print('ID saved to tag: track_id = ', audio.get('TXXX:TRACK_ID'))
+
+    else:
+        trid = audio.get('TXXX:TRACK_ID')
+        print('Track id is', trid)
+
+    # Call function to analyze track's acoustic properties
     wait_for_analysis(trid)
 
 else:
+    # Error message if no parameters are passed.
     print("usage: python track_upload.py path-audio audio-type")
