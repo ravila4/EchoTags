@@ -16,10 +16,13 @@ from mutagen.id3 import ID3, TXXX
 audio = ID3("example.mp3")
 audio.add(TXXX(encoding=0, desc='TRACK_ID', text=['TRQNFKP14AAEDDC9D7']))
 audio.save()
-print(audio.get('TXXX:TRACK_ID'))
+print('Track ID:', audio.get('TXXX:TRACK_ID'))
 
-# Obtaining title and artist tags.
+# Obtaining title, album and artist tags.
 artist = audio.get('TPE1')
 title = audio.get('TIT2')
-print(artist, title)
+album = audio.get('TALB')
+print('Artist: ', artist)
+print('Ttitle: ', title)
+print('Album: ', album)
 
