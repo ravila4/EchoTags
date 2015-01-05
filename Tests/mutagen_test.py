@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # project         :EchoTags
 # title           :test2.py
-# description     :Testing mutagen tag saving and opening.
+# description     :Tests related to ID3 tag saving and opening.
 # author          :ravila
 # date            :January 02, 2015
 # version         :
