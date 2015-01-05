@@ -8,49 +8,80 @@
 # usage           :
 # notes           :
 # python_version  :3.4
-# ==============================================================================
+
+########################################################################
+#  The following blocks of code are a list of miscellaneous API calls  #
+########################################################################
 
 import pyen
-import logging
 
-logging.getLogger('pyen').setLevel(logging.DEBUG)
 
-en = pyen.Pyen('D6JNAFBHJO6UD84Z7')
+en = pyen.Pyen('D6JNAFBHJO6UD84Z7')  # Your API key goes here.
+
 
 # Create a list of similar artists
 print('===============================================')
+print('A list of similar artists:\n')
 response = en.get('artist/similar', name='weezer')
 for artist in response['artists']:
     print(artist['id'], artist['name'])
 
+
 # Create a static artist-based playlist
 print('===============================================')
+print('An artist based playlist:\n')
 response = en.get('playlist/static', artist='amanda palmer', type='artist-radio')
 for i, song in enumerate(response['songs']):
     print("%d %-32.32s %s" % (i, song['artist_name'], song['title']))
 
-# Search for songs in the Echonest database and return their ID.
-print('===============================================')
-response = en.get('song/search', artist='amanda palmer', title='the killing type')
+
+''' The Echo Nest provides several types of IDs that may be useful,
+    song and artist IDs may be obtained by using the 'song/search'
+    track IDs may be obtained using the track/upload methods. '''
+
+
+# The example below gets a list of acoustic attributes attributes using the track ID.
+# Track ID is obtained by uploading a file for analysis. However, this may be time consuming.
+
+# Obtaining Track ID
+print('========================================================================')
+print('Uploading song for analysis...')
+f = open('example.mp3', 'rb')
+response = en.post('track/upload', track=f, filetype='mp3')
+track_id = response['track']['id']
+print("%s - %s    Track ID: %s\n" % (response['track']["artist"], response['track']["title"], track_id))
+
+# Obtaining attributes
+print('Acoustic Attributes from Track ID:\n')
+response = en.get('track/profile', id=track_id, format='json', bucket='audio_summary')
+# Printing the output
+for k, v in response['track']['audio_summary'].items():
+    print("%s: %s" % (k, str(v)))
+
+
+# A faster way to get attributes is to obtain a song ID by passing an artist's name and song title.
+
+
+# Obtaining song ID.
+print('========================================================================')
+response = en.get('song/search', artist='amanda palmer', title='the killing type', results=1)
 for song in response['songs']:
-    print("%s - %s %32.32s" % (song["artist_name"], song["title"], song["id"]))
+    song_id = song['id']
+    print("%s - %s    Song ID: %s\n" % (song["artist_name"], song["title"], song_id))
 
-# Get track attributes by Track ID
-print('===============================================')
-response = en.get('track/profile', id='TRTLKZV12E5AC92E11', format='json', bucket='audio_summary')
-track = response['track']
-audio_summary = track['audio_summary']
 
-print("TRACK: %s by %s\n" % (track['title'], track['artist']))
-print("mode:", audio_summary['mode'])
-print("key:", audio_summary['key'])
-print("tempo:", audio_summary['tempo'])
-print("time_signature:", audio_summary['time_signature'])
-print("loudness:", audio_summary['loudness'])
-print("valence:", audio_summary['valence'])
-print("energy:", audio_summary['tempo'])
-print("acousticness:", audio_summary['acousticness'])
-print("danceability:", audio_summary['danceability'])
-print("speechiness:", audio_summary['speechiness'])
-print("ID:", track['id'])
-print("song_ID:", track['song_id'])
+# Obtaining Attributes.
+print('Acoustic Attributes from Song ID:\n')
+response = en.get('song/profile', id=song_id, format='json', bucket='audio_summary')
+# Printing the output
+for song in response['songs']:  # I'm still not sure why it's different than the track method, but it works.
+    for k, v in song['audio_summary'].items():
+        print("%s: %s" % (k, str(v)))
+
+# Or, even easier... do both of these things at once:
+print('========================================================================')
+print('Acoustic Attributes from song search:\n')
+response = en.get('song/search', artist='amanda palmer', title='the killing type', results=1, bucket='audio_summary')
+for song in response['songs']:
+    for k, v in song['audio_summary'].items():
+        print("%s: %s" % (k, str(v)))
