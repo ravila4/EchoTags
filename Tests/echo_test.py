@@ -35,7 +35,7 @@ response = en.get('song/search', artist='amanda palmer', title='the killing type
 for song in response['songs']:
     print("%s - %s %32.32s" % (song["artist_name"], song["title"], song["id"]))
 
-# Get track attributes by ID
+# Get track attributes by Track ID
 print('===============================================')
 response = en.get('track/profile', id='TRTLKZV12E5AC92E11', format='json', bucket='audio_summary')
 track = response['track']
