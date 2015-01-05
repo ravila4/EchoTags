@@ -13,11 +13,12 @@
 #  The following blocks of code are a list of miscellaneous API calls  #
 ########################################################################
 
+import os
 import pyen
 
-
-en = pyen.Pyen('D6JNAFBHJO6UD84Z7')  # Your API key goes here.
-
+# Set an environment variable: 'ECHO_NEST_API_KEY'
+key = os.environ.get('ECHO_NEST_API_KEY')
+en = pyen.Pyen(key)  # Alternatively, enter your API key here.
 
 # Create a list of similar artists
 print('===============================================')
