@@ -9,7 +9,7 @@
 # notes           :
 # python_version  :3.4
 # ==============================================================================
-import mutagen
+
 from mutagen.id3 import ID3, TXXX, TPE1, ID3NoHeaderError
 
 # Open file
