@@ -5,7 +5,7 @@
 # author          :ravila
 # date            :1/5/15
 # version         :
-# usage           :
+# usage           :python3 multi_open.py *.mp3 mp3
 # notes           :
 # python_version  :3.4
 # ==============================================================================
@@ -13,7 +13,7 @@
 
 # A loop for cycling through several files when these are opened with a wildcard.
 #
-# e.g. 'python3 multi_open.py *.mp3 mp3'
+#   e.g. 'python3 multi_open.py *.mp3 mp3'
 #
 # System arguments are given indexes that start from 0.
 # Therefore, in this example, 'multi_open.py' has index 0,
