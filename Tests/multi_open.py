@@ -23,7 +23,7 @@
 
 import sys
 x = len(sys.argv) - 1  # This gives us the number of arguments passed.
-file_type = sys.argv[x]  # Set 'type' equal to the last argument passed.
+file_type = sys.argv[x]  # Set 'file_type' equal to the last argument passed.
 
 for f in range(1, x):
     print(str(sys.argv[f]), sys.argv[x])
