@@ -20,10 +20,11 @@
 # every file in the folder with the extension '.mp3' has an index starting from 1
 # to whatever number of .mp3's we have. Finally, the string 'mp3' has the last index.
 
-
+import os
 import sys
+
 x = len(sys.argv) - 1  # This gives us the number of arguments passed.
 file_type = sys.argv[x]  # Set 'file_type' equal to the last argument passed.
 
 for f in range(1, x):
-    print(str(sys.argv[f]), sys.argv[x])
+    print(os.path.basename(sys.argv[f]), sys.argv[x])
