@@ -6,7 +6,7 @@
 # date            :January 06, 2015
 # version         :2.0
 # usage           :python3 track_upload.py path-audio
-# notes           :Multiple audi files may be opened using a wildcard. Like so: *.mp3
+# notes           :Multiple audio files may be opened using a wildcard.
 # python_version  :3.4
 # ==============================================================================
 # TODO: Add support for other file types.
