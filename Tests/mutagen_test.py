@@ -2,7 +2,7 @@
 # project         :EchoTags
 # title           :test2.py
 # description     :Tests related to ID3 tag saving and opening.
-# author          :ravila
+# author          :ravila4
 # date            :January 02, 2015
 # version         :
 # usage           :
