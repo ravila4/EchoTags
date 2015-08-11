@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # project         :EchoTags
 # title           :echotag.py
-# description     :Program for tagging mp3 files with various useful attributes.
+# description     :Program for tagging mp3 files with various attributes.
 # author          :ravila4
 # date            :January 06, 2015
 # version         :2.0
@@ -27,12 +27,14 @@ en = pyen.Pyen(key)  # Alternatively, enter your API key here.
 
 def get_attributes(a, t):
     # Search for song in Echo Nest database
-    response = en.get('song/search', artist=a, title=t, results=1, bucket='audio_summary')
+    response = en.get('song/search', artist=a, title=t, results=1,
+                      bucket='audio_summary')
     # If a song is found, save attributes to tags.
     for song in response['songs']:
         song_id = song['id']
         audio.add(TXXX(encoding=0, desc='SONG_ID', text=song_id))
         for k, v in song['audio_summary'].items():
+            print( k, '=', v )
             audio.add(TXXX(encoding=0, desc=k, text=str(v)))
         audio.save()
         print(colored('All attributes saved to tags.', 'green'))
@@ -50,12 +52,15 @@ if len(sys.argv) > 1:
         title = audio.get('TIT2')
         print('\nOpened file:', os.path.basename(file))
 
-        # Exclude files if missing artist or title tags and output a red warning message.
+        # Exclude files if missing artist or title tags and output a red
+        # warning message.
         if artist is None:
             if title is None:
-                print(colored('Artist and title tags missing, skipping track...', 'red'))
+                print(colored(
+                    'Artist and title tags missing, skipping track...', 'red'))
             else:
-                print(colored('Artist tag missing, skipping track...', 'red'))
+                print(colored(
+                    'Artist tag missing, skipping track...', 'red'))
 
         elif title is None:
             print(colored('Title tag missing, skipping track...', 'red'))
